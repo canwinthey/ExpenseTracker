@@ -1,0 +1,10 @@
+{
+  "costCode" : 100,
+  "description" : "Lunch at RMall",
+  "expenseDate" : "2024-04-03",
+  "stateId" : 1,
+  "locationId" : 10,
+  "currency" : "INR",
+  "amount" : 5000,
+  "categoryId" : 1
+}
