@@ -21,11 +21,13 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,9 +38,6 @@ public class ExpenseServiceTest {
 
     @Mock
     private ExpenseRepository expenseRepository;
-
-    @Mock
-    private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
 
     @Mock
     private RestService restService;
@@ -79,7 +78,7 @@ public class ExpenseServiceTest {
         ExchangeValue exchangeValue = new ExchangeValue();
         exchangeValue.setConversionMultiple(new BigDecimal("0.012"));
         when(expenseValidation.validate(any())).thenReturn(true);
-        when(currencyExchangeServiceProxy.retrieveExchangeValue(any(), any())).thenReturn(exchangeValue);
+        when(restService.getCurrencyExchange(any(), any())).thenReturn(exchangeValue);
         when(restService.getCategory(any())).thenReturn(new Category(1L, "Travel"));
         when(restService.getLocation(any())).thenReturn(
                 new LocationDto(1L, 2L, "California", "San Jose"));
@@ -88,12 +87,63 @@ public class ExpenseServiceTest {
         // Test
         Expense response = expenseService.createExpense(expenseDto);
         System.out.println(response.toString());
-
+        verify(expenseRepository, times(1)).save(any());
         // Assertions
         assertEquals(new BigDecimal("60.000"), response.getCurrencyAmtInUSD());
     }
 
-    // Add similar tests for update, retrieval, and deletion scenarios
+    @Test
+    void testGetExpenses_Empty() {
+        List<Expense> expenses = new ArrayList<>();
+        when(expenseRepository.findAll()).thenReturn(expenses);
 
-    // Add tests for boundary, negative, and error scenarios
+        ResponseEntity<List<Expense>> responseEntity = expenseService.getExpenses();
+
+        assertEquals(404, responseEntity.getStatusCodeValue());
+        assertEquals(0, responseEntity.getBody().size());
+    }
+
+    @Test
+    void testGetExpenses_Not_Empty() {
+        List<Expense> expenses = new ArrayList<>();
+        expenses.add(expense);
+        when(expenseRepository.findAll()).thenReturn(expenses);
+
+        ResponseEntity<List<Expense>> responseEntity = expenseService.getExpenses();
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(1, responseEntity.getBody().size());
+    }
+
+    @Test
+    void testDeleteExpense() {
+        Long id = 1L;
+        doNothing().when(expenseRepository).deleteById(id);
+
+        ResponseEntity<Expense> responseEntity = expenseService.deleteExpense(id);
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void testGetExpense_Ok() {
+        Long id = 1L;
+        Optional<Expense> optionalExpense = Optional.of(expense);
+        when(expenseRepository.findById(id)).thenReturn(optionalExpense);
+
+        ResponseEntity<Expense> responseEntity = expenseService.getExpense(id);
+
+        assertEquals(200, responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    void testGetExpense_Not_Found() {
+        Long id = 100L;
+        Optional<Expense> optionalExpense = Optional.empty();
+        when(expenseRepository.findById(id)).thenReturn(optionalExpense);
+
+        ResponseEntity<Expense> responseEntity = expenseService.getExpense(id);
+
+        assertEquals(404, responseEntity.getStatusCodeValue());
+    }
 }

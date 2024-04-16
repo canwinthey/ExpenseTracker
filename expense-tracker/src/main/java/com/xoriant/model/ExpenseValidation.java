@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +29,6 @@ public class ExpenseValidation {
         Long costCode = expenseDto.getCostCode();
         validateCostCode(costCode);
         validateAmount(expenseDto.getAmount());
-        validateExpenseDate(expenseDto.getExpenseDate());
 
         Category categoryObj = restService.getCategory(expenseDto.getCategoryId());
         String category = categoryObj.getName();
@@ -126,17 +124,18 @@ public class ExpenseValidation {
         return valid;
     }
 
-    private void validateExpenseDate(LocalDate expenseDate) {
-        //if (expenseDate )
-    }
-
     private void validateAmount(BigDecimal amount) {
         boolean validAmount = false;
-        if(amount == null){
+        double doubleAmt = 0.0;
+        if(amount == null) {
             throw new ExpenseValidationException("Amount is required.");
-        } else if(amount.compareTo(BigDecimal.ZERO) <= 0) {
+        } else {
+            doubleAmt = amount.doubleValue();
+        }
+
+        if(doubleAmt <= 0) {
             throw new ExpenseValidationException("Amount should not be 0 or negative.");
-        } else if(amount.compareTo(BigDecimal.ZERO) > 7000) {
+        } else if(doubleAmt > 7000) {
             throw new ExpenseValidationException("Amount should not be greater than 7000.");
         }
     }
@@ -149,5 +148,4 @@ public class ExpenseValidation {
             throw new ExpenseValidationException("CostCode should be (100, 200, 300, 400).");
         }
     }
-
 }

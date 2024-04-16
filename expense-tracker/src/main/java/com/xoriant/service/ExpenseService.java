@@ -3,12 +3,10 @@ package com.xoriant.service;
 import com.xoriant.exception.ExpenseValidationException;
 import com.xoriant.model.*;
 import com.xoriant.repository.ExpenseRepository;
-import com.xoriant.utils.ExpenseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.net.URISyntaxException;

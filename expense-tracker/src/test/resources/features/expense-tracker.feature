@@ -1,5 +1,6 @@
+@tracker
 Feature: Expense Tracker
-
+  @@expenses
   Scenario: Create expense with valid input
     Given the user provides valid expense details
     When the user sends a POST request to "/expenses" for Expense

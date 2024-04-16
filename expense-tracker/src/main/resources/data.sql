@@ -1,0 +1,1 @@
+insert into expense (id,cost_Code,description,expense_Date,state,location,category,currency,amount,currency_amt_inusd) values (1000,100,'New York Business Trip','2024-04-12','New York','New York City','Travel','INR',5000,60.0)
