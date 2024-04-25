@@ -8,10 +8,10 @@ import AppScreenLoader from "../components/AppScreenLoader.jsx";
 import AppToaster from "../components/AppToaster.jsx";
 import moment from "moment";
 function Expense(props) {
-  const categoryEndpoint = "http://localhost:8700/category";
-  const locationEndpoint = "http://localhost:8700/location/state/";
-  const stateEndpoint = "http://localhost:8700/state";
-  const expensesEndpoint = "http://localhost:8080/expenses/";
+  const categoryEndpoint = "http://20.221.74.206:8100/category";
+  const locationEndpoint = "http://20.221.74.206:8200/location/state/";
+  const stateEndpoint = "http://20.221.74.206:8200/state";
+  const expensesEndpoint = "http://20.221.74.206:8080/expenses/";
 
   const [expenseItem, setExpenseItem] = useState({ 
     categoryId: 1,
@@ -178,7 +178,7 @@ function Expense(props) {
         <h3 className="d-flex">Add Expense</h3>
         <div className="expense_form d-flex mt-4">
           <Form className="d-flex gap-5 w-100 flex-wrap">
-            <Form.Group className="d-flex gap-1" controlId="formGroupcostCode">
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupcostCode">
               <Form.Label className="mt-2">Cost code</Form.Label>
               <Form.Select
                 onChange={(e) => handleFormChange(e)}
@@ -194,7 +194,7 @@ function Expense(props) {
               </Form.Select>
             </Form.Group>
             <Form.Group
-              className="d-flex gap-1"
+              className="d-flex gap-1 flex-column"
               controlId="formGroupDescription"
             >
               <Form.Label className="mt-2">Description</Form.Label>
@@ -206,7 +206,7 @@ function Expense(props) {
               />
             </Form.Group>
 
-            <Form.Group className="d-flex gap-1" controlId="formGroupCategory">
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupCategory">
               <Form.Label className="mt-2">Category</Form.Label>
               <Form.Select
                 onChange={(e) => handleFormChange(e)}
@@ -225,8 +225,8 @@ function Expense(props) {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="d-flex gap-1" controlId="formGroupState">
-              <Form.Label className="mt-2">State</Form.Label>
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupState">
+              <Form.Label className="mt-2">Destination State</Form.Label>
               <Form.Select
                 onChange={(e) => handleFormChange(e)}
                 name="stateId"
@@ -246,8 +246,8 @@ function Expense(props) {
                 ))}
               </Form.Select>
             </Form.Group>
-            <Form.Group className="d-flex gap-1" controlId="formGroupLocation">
-              <Form.Label className="mt-2">Location</Form.Label>
+            <Form.Group className="d-flex gap-1  flex-column" controlId="formGroupLocation">
+              <Form.Label className="mt-2">Destination Location</Form.Label>
               <Form.Select
                 onChange={(e) => handleFormChange(e)}
                 name="locationId"
@@ -266,7 +266,7 @@ function Expense(props) {
                 ))}
               </Form.Select>
             </Form.Group>
-            <Form.Group className="d-flex gap-1" controlId="formGroupAmount">
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupAmount">
               <Form.Label className="mt-2">Amount</Form.Label>
               <Form.Control
                 name="amount"
@@ -276,7 +276,7 @@ function Expense(props) {
                 onChange={(e) => handleFormChange(e)}
               />
             </Form.Group>
-            <Form.Group className="d-flex gap-1" controlId="formGroupCurrency">
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupCurrency">
               <Form.Label className="mt-2">Currency</Form.Label>
               <Form.Select
                 onChange={(e) => handleFormChange(e)}
@@ -287,13 +287,13 @@ function Expense(props) {
               >
                 <option>select currency</option>
                 <option value="INR">INR</option>
-                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
                 <option value="AUD">AUD</option>
                 <option value="GBP">GBP</option>
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="d-flex gap-1" controlId="formGroupDate">
+            <Form.Group className="d-flex gap-1 flex-column" controlId="formGroupDate">
               <Form.Label className="mt-2">Date</Form.Label>
               <Form.Control
                 onChange={(e) => handleFormChange(e)}
