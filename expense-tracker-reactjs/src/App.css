@@ -1,0 +1,100 @@
+#root {
+  max-width: 1480px;
+  text-align: center;
+  width: 100%;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between !important;
+  padding: 0 2rem !important;
+}
+
+.navbar-nav a {
+  color: #fff;
+  margin-right: 15px;
+  padding: 5px;
+}
+
+.navbar-nav a:hover {
+  background: #fff;
+  color: #0d6efd;
+}
+
+.expense {
+  padding: 1.5rem;
+  margin-top: 3rem;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.expense_form form div {
+  width: 30%;
+}
+.expense_form form div label {
+  width: 30%;
+  text-align: left;
+}
+
+/* select{
+  width:85% !important;
+}
+input{
+  width:78% !important;
+} */
+
+input,
+select {
+  border: 1px solid #ccc !important;
+}
+.table-responsive{
+  overflow-y: auto;
+  max-height:400px
+}
+.top-20{
+  top:20% !important;
+}
+
+@media (max-width:1025px) {
+  .expense_form form div {
+    width: 100%;
+  }
+}
