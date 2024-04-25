@@ -4,3 +4,5 @@ insert into exchange_value(id,currency_from,currency_to,conversion_multiple)
 values(10002,'EUR','USD',1.07);
 insert into exchange_value(id,currency_from,currency_to,conversion_multiple)
 values(10003,'AUD','USD',0.65);
+insert into exchange_value(id,currency_from,currency_to,conversion_multiple)
+values(10004,'GBP','USD',1.24);
