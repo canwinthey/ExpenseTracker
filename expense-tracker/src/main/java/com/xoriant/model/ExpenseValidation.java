@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,11 +16,6 @@ import java.util.List;
 public class ExpenseValidation {
 
     private List<Long> costCodeList = Arrays.asList(100L, 200L, 300L, 400L);
-    @Value("${url.category}")
-    private String categoryUrl;
-
-    @Value("${url.location}")
-    private String locationUrl;
 
     @Autowired
     private RestService restService;
@@ -29,7 +25,6 @@ public class ExpenseValidation {
         Long costCode = expenseDto.getCostCode();
         validateCostCode(costCode);
         validateAmount(expenseDto.getAmount());
-
         Category categoryObj = restService.getCategory(expenseDto.getCategoryId());
         String category = categoryObj.getName();
         LocationDto locationDto = restService.getLocation(expenseDto.getLocationId());
@@ -123,6 +118,7 @@ public class ExpenseValidation {
         }
         return valid;
     }
+
 
     private void validateAmount(BigDecimal amount) {
         boolean validAmount = false;

@@ -42,9 +42,4 @@ public class ExpenseController {
 		return ResponseEntity.created(new URI("/expenses" + result.getId())).body(result);
 	}
 
-	@PutMapping
-	public ResponseEntity<Expense> editExpense(@RequestBody ExpenseDto expenseDto) throws URISyntaxException{
-		Expense result = expenseService.updateExpense(expenseDto);
-		return ResponseEntity.created(new URI("/expenses" + result.getId())).body(result);
-	}
 }

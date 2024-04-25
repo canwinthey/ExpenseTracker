@@ -42,6 +42,9 @@ public class ExpenseServiceTest {
     @Mock
     private RestService restService;
 
+    @Mock
+    private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
+
     @InjectMocks
     private ExpenseService expenseService;
 
@@ -55,7 +58,7 @@ public class ExpenseServiceTest {
         expenseDto = new ExpenseDto();
         expenseDto.setCostCode(100L);
         expenseDto.setDescription("Lunch at RMall");
-        expenseDto.setExpenseDate(LocalDate.now());
+        expenseDto.setExpenseDate("23-04-2024");
         expenseDto.setStateId(1L);
         expenseDto.setLocationId(2L);
         expenseDto.setCurrency("INR");
@@ -65,7 +68,7 @@ public class ExpenseServiceTest {
         expense = new Expense();
         expense.setCostCode(100L);
         expense.setDescription("Lunch at RMall");
-        expense.setExpenseDate(LocalDate.now());
+        expense.setExpenseDate("23-04-2024");
         expense.setCurrency("INR");
         expense.setAmount(new BigDecimal("5000"));
         expense.setCurrencyAmtInUSD(new BigDecimal("60.000"));
@@ -78,7 +81,7 @@ public class ExpenseServiceTest {
         ExchangeValue exchangeValue = new ExchangeValue();
         exchangeValue.setConversionMultiple(new BigDecimal("0.012"));
         when(expenseValidation.validate(any())).thenReturn(true);
-        when(restService.getCurrencyExchange(any(), any())).thenReturn(exchangeValue);
+        when(currencyExchangeServiceProxy.retrieveExchangeValue(any(), any())).thenReturn(exchangeValue);
         when(restService.getCategory(any())).thenReturn(new Category(1L, "Travel"));
         when(restService.getLocation(any())).thenReturn(
                 new LocationDto(1L, 2L, "California", "San Jose"));

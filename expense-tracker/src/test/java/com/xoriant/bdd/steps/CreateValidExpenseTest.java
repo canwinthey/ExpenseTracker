@@ -30,7 +30,7 @@ public class CreateValidExpenseTest {
         expenseDto = new ExpenseDto();
         expenseDto.setCostCode(costCode);
         expenseDto.setDescription(description);
-        expenseDto.setExpenseDate(LocalDate.parse(date));
+        expenseDto.setExpenseDate(date);
         expenseDto.setStateId(stateId);
         expenseDto.setLocationId(locationId);
         expenseDto.setCurrency(currency);

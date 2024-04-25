@@ -2,57 +2,49 @@ package com.xoriant.service;
 
 import com.xoriant.model.*;
 import com.xoriant.utils.ExpenseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RestService {
 
-    @Value("${url.category}")
-    private String categoryUrl;
+    @Autowired
+    private CategoryServiceProxy categoryServiceProxy;
+    @Autowired
+    private LocationServiceProxy locationServiceProxy;
 
-    @Value("${url.location}")
-    private String locationUrl;
-
-    @Value("${url.currency}")
-    private String currencyUrl;
-
-
-    public Category getCategory(Long categoryId){
+    public Category getCategory(Long id){
+        Category category = new Category();
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<String> entity = ExpenseUtils.getHttpEntity();
-            String url = categoryUrl + categoryId;
-            System.out.println(url);
-            ResponseEntity<Category> categoryEntity =
-                    restTemplate.exchange(url, HttpMethod.GET, entity, Category.class);
-            return categoryEntity.getBody();
+            ResponseEntity<Category> categoryEntity = categoryServiceProxy.getCategory(id);
+            if(categoryEntity != null) {
+                category = categoryEntity.getBody();
+            }
         } catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
         }
-        return new Category();
+        return category;
     }
 
     public LocationDto getLocation(Long locationId){
+        LocationDto locationDto = new LocationDto();
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<String> entity = ExpenseUtils.getHttpEntity();
-
-            String url = locationUrl + locationId;
-            System.out.println(url);
-            ResponseEntity<LocationDto> locationEntity =
-                    restTemplate.exchange(url, HttpMethod.GET, entity, LocationDto.class);
-            return locationEntity.getBody();
+            ResponseEntity<LocationDto> locationEntity = locationServiceProxy.getLocationById(locationId);
+            if(locationEntity != null) {
+                locationDto = locationEntity.getBody();
+            }
         } catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
         }
-        return new LocationDto();
+        return locationDto;
     }
-
+/*
     public ExchangeValue getCurrencyExchange(String from, String to){
         try {
             RestTemplate restTemplate = new RestTemplate();
@@ -68,4 +60,6 @@ public class RestService {
         }
         return new ExchangeValue();
     }
+ */
+
 }

@@ -12,29 +12,32 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 
 @Service
 public class ExpenseService {
     private static final String USD = "USD";
-
+    Logger logger = Logger.getLogger("ExpenseService");
     @Autowired
     private RestService restService;
     @Autowired
     private ExpenseValidation expenseValidation;
     @Autowired
     private ExpenseRepository expenseRepository;
+    @Autowired
+    private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
 
     public Expense createExpense(ExpenseDto expenseDto) throws URISyntaxException, ExpenseValidationException {
         if (!expenseValidation.validate(expenseDto)) {
-            System.out.println("Validation Failed!!!");
+            logger.info("Validation Failed!!!");
         }
         Expense expense = new Expense();
-        ExchangeValue exchangeValue = restService.getCurrencyExchange(expenseDto.getCurrency(), USD);
+        ExchangeValue exchangeValue = currencyExchangeServiceProxy.retrieveExchangeValue(expenseDto.getCurrency(), USD);
         if (exchangeValue != null) {
             BigDecimal currencyAmtInUSD = exchangeValue.getConversionMultiple().multiply(expenseDto.getAmount());
             expenseDto.setCurrencyAmtInUSD(currencyAmtInUSD);
-            System.out.println("currencyAmtInUSD: " + currencyAmtInUSD);
+            logger.info("currencyAmtInUSD: " + currencyAmtInUSD);
         }
         populateCategory(expenseDto.getCategoryId(), expense);
         populateLocation(expenseDto.getLocationId(), expense);
@@ -55,7 +58,7 @@ public class ExpenseService {
         Category category = restService.getCategory(categoryId);
         if (category != null) {
             expense.setCategory(category.getName());
-            System.out.println("category: " + category.getName());
+            logger.info("category: " + category.getName());
         }
     }
 
@@ -65,17 +68,6 @@ public class ExpenseService {
             expense.setLocation(locationDto.getLocation());
             expense.setState(locationDto.getState());
         }
-    }
-
-
-    public Expense updateExpense(ExpenseDto expenseDto) throws URISyntaxException {
-        if (expenseDto.getId() == 0) {
-            return null;
-        }
-        if (!expenseValidation.validate(expenseDto)) {
-            // Throw exception
-        }
-        return createExpense(expenseDto);
     }
 
     public ResponseEntity<List<Expense>> getExpenses() {
@@ -94,7 +86,7 @@ public class ExpenseService {
             expenseRepository.deleteById(id);
             return ResponseEntity.ok().build();
         } catch (Exception ex){
-            System.out.println(ex.getMessage());
+            logger.info(ex.getMessage());
         }
         return ResponseEntity.notFound().build();
     }

@@ -38,7 +38,7 @@ public class ExpenseValidationTest {
         expenseDto = new ExpenseDto();
         expenseDto.setCostCode(100L);
         expenseDto.setDescription("Lunch at RMall");
-        expenseDto.setExpenseDate(LocalDate.now());
+        expenseDto.setExpenseDate("23-04-2024");
         expenseDto.setStateId(1L);
         expenseDto.setLocationId(1L);
         expenseDto.setCurrency("INR");

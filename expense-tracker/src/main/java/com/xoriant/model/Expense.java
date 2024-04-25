@@ -1,18 +1,14 @@
 package com.xoriant.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 @Table(name="expense")
 public class Expense {
@@ -22,7 +18,7 @@ public class Expense {
 	private Long id;
 	private Long costCode;
 	private String description;
-	private LocalDate expenseDate;
+	private String expenseDate;
 	private String state;
 	private String location;
 	private String category;
