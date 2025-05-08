@@ -1,15 +1,35 @@
 npm run dev -- --host
 
-java -jar category-service-0.0.1-SNAPSHOT.jar
-java -jar location-service-0.0.1-SNAPSHOT.jar
+java -jar eureka-server-0.0.1-SNAPSHOT.jar
+java -jar category-service-0.0.1-SNAPSHOT.jar 
+java -jar location-service-0.0.1-SNAPSHOT.jar 
 java -jar currency-exchange-service.jar
 
 java -javaagent:jacocoagent.jar -jar expense-tracker-0.0.1-SNAPSHOT.jar
 
 java -jar jacococli.jar report jacoco.exec --classfiles target\classes --sourcefiles src\main\java --html jacoco-report
 
+  const categoryEndpoint = "http://40.67.160.101:8100/category";
+  const locationEndpoint = "http://40.67.160.101:8200/location/state/";
+  const stateEndpoint = "http://40.67.160.101:8200/state";
+  const expensesEndpoint = "http://40.67.160.101:8080/expenses/";
 
-const categoryEndpoint = "http://20.221.74.206:8100/category";
-const locationEndpoint = "http://20.221.74.206:8200/location/state/";
-const stateEndpoint = "http://20.221.74.206:8200/state";
-const expensesEndpoint = "http://20.221.74.206:8080/expenses/";
+
+  const categoryEndpoint = "http://localhost:8100/category";
+  const locationEndpoint = "http://localhost:8200/location/state/";
+  const stateEndpoint = "http://localhost:8200/state";
+  const expensesEndpoint = "http://localhost:8080/expenses/";
+  
+nohup java -jar eureka-server-0.0.1-SNAPSHOT.jar > eureka.log 2>&1 &
+
+nohup java -jar category-service-0.0.1-SNAPSHOT.jar  > category.log 2>&1 &
+
+nohup java -jar location-service-0.0.1-SNAPSHOT.jar  > location.log 2>&1 &
+
+nohup java -jar currency-exchange-service.jar > currency.log 2>&1 &
+
+nohup java -jar expense-tracker-0.0.1-SNAPSHOT.jar > expense.log 2>&1 &
+
+nohup npm run dev > dev.log 2>&1 &
+
+
